@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>True or False Quiz</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+    body { 
+      margin: 0; 
+      padding: 0; 
+      background-color: transparent; 
+      font-family: 'Montserrat', sans-serif; 
+      color: white; 
+      overflow-x: hidden;
+    }
+    
+    .wrapper { 
+      padding: 10px; 
+      width: 100%; 
+      max-width: 900px; 
+      margin: 0 auto; 
+      box-sizing: border-box; 
+    }
+
+    .action-card {
+      background: #000;
+      border-left: 6px solid #D30000;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      transition: all 0.4s ease;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+    }
+
+    .header-title-container { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+      border-bottom: 2.5px solid #D30000; 
+      padding-bottom: 8px; 
+      width: 100%; 
+      justify-content: space-between; 
+      transition: all 0.4s ease;
+    }
+    
+    .logo-bracket { 
+      width: 42px; 
+      height: 42px; 
+      background: #000; 
+      border-left: 3.5px solid #D30000; 
+      border-radius: 5px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      padding-left: 4px; 
+      box-sizing: border-box; 
+    }
+    
+    .logo-bracket img { 
+      width: 34px; 
+      height: 34px; 
+      border-radius: 50%; 
+      object-fit: cover; 
+    }
+    
+    .header-left-group { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+    }
+    
+    .header-left-group h2 { 
+      color: #ffffff; 
+      font-size: 1rem; 
+      font-weight: 700; 
+      text-transform: uppercase; 
+      letter-spacing: 0.5px; 
+      margin: 0; 
+    }
+
+    .counter-text {
+      color: #888;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .progress-container { 
+      width: 100%; 
+      background: #222; 
+      height: 4px; 
+      border-radius: 2px; 
+      margin-bottom: 20px; 
+      overflow: hidden; 
+    }
+    
+    .progress-bar { 
+      height: 100%; 
+      background: #D30000; 
+      width: 0%; 
+      transition: width 0.4s ease; 
+    }
+
+    .exercise-block {
+      background: #111;
+      padding: 25px;
+      border-radius: 10px;
+      border: 1px solid #222;
+      box-sizing: border-box;
+    }
+
+    .question-text { 
+      color: #ffffff; 
+      font-size: 1.1rem; 
+      font-weight: 700; 
+      margin-bottom: 20px; 
+      line-height: 1.4; 
+      text-align: center; 
+      display: block;
+    }
+    
+    .selection-grid { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 12px; 
+      margin-bottom: 15px; 
+    }
+
+    .option-btn {
+      background: #000; 
+      border: 1.5px solid #444; 
+      border-bottom: 3px solid #222;
+      border-radius: 8px;
+      padding: 14px 10px; 
+      color: white; 
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem; 
+      font-weight: 700; 
+      cursor: pointer; 
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: #555;
+    }
+
+    .option-btn.correct-state { 
+      background-color: #002b0c !important;
+      border: 2px solid #00FF00 !important; 
+      border-bottom: 3px solid #00FF00 !important;
+      color: #00FF00 !important; 
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+      transform: scale(1.01);
+    }
+    
+    .option-btn.incorrect-state { 
+      background-color: #421b1b !important;
+      border: 2px solid #D30000 !important; 
+      border-bottom: 3px solid #D30000 !important;
+      color: #D30000 !important; 
+      animation: shake 0.4s; 
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      75% { transform: translateX(4px); }
+    }
+
+    .btn-next { 
+      width: 100%; 
+      border: none; 
+      padding: 14px; 
+      border-radius: 8px; 
+      font-weight: 700; 
+      cursor: pointer; 
+      text-transform: uppercase; 
+      margin-top: 10px; 
+      display: none; 
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem; 
+      letter-spacing: 0.5px;
+    }
+
+    .next-correct { background: #00FF00 !important; color: #000 !important; }
+    .next-wrong { background: #D30000 !important; color: #fff !important; }
+
+    .feedback { 
+      margin-top: 12px; 
+      font-weight: 700; 
+      display: none; 
+      padding: 8px; 
+      font-size: 0.9rem; 
+      text-align: center; 
+      line-height: 1.4; 
+      text-transform: uppercase; 
+    }
+
+    .btn-restart { 
+      width: 100%; 
+      border: none; 
+      padding: 14px; 
+      border-radius: 8px; 
+      font-weight: 700; 
+      cursor: pointer; 
+      text-transform: uppercase; 
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem; 
+      letter-spacing: 0.5px;
+      transition: background 0.3s; 
+    }
+    .restart-red { background: #D30000; color: white; }
+    .restart-green { background: #00FF00; color: black; box-shadow: 0 0 15px rgba(0, 255, 0, 0.5); }
+
+    .finish-screen { text-align: center; color: white; display: none; padding: 10px; }
+    
+    .finish-screen h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin: 0 0 10px 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .score-val { font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: 15px; }
+
+    /* Optimizaciones completas para pantallas móviles */
+    @media (max-width: 768px) {
+      .action-card { padding: 15px; border-left-width: 4px; }
+      
+      .header-title-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding-bottom: 10px;
+      }
+      
+      .header-left-group {
+        justify-content: center;
+        width: 100%;
+      }
+
+      .counter-text {
+        font-size: 0.85rem;
+        background: #111;
+        padding: 4px 12px;
+        border-radius: 20px;
+        border: 1px solid #333;
+      }
+
+      .exercise-block { padding: 15px; }
+      .logo-bracket { width: 36px; height: 36px; }
+      .logo-bracket img { width: 28px; height: 28px; }
+      .header-left-group h2 { font-size: 0.85rem; }
+      .question-text { font-size: 0.95rem; margin-bottom: 15px; }
+      .selection-grid { gap: 8px; }
+      .option-btn { padding: 12px 6px; font-size: 0.85rem; min-height: 46px; border-radius: 6px; border-bottom-width: 2px; }
+      .btn-next { padding: 12px; font-size: 0.75rem; border-radius: 6px; }
+      .feedback { font-size: 0.8rem; }
+      .finish-screen h3 { font-size: 1.3rem; }
+      .score-val { font-size: 1.5rem; }
+      .btn-restart { padding: 12px; font-size: 0.75rem; border-radius: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="action-card" id="main-card">
+    <div class="section-header">
+      <div class="header-title-container" id="main-header">
+        <div class="header-left-group">
+          <div class="logo-bracket"><img src="https://drive.google.com/thumbnail?id=1DQWHMZf7MpnzZBa3CbqqyJGLQEK6U4lZ" alt="Kira"></div>
+          <h2>TRUE OR FALSE</h2>
+        </div>
+        <span id="counter" class="counter-text">1/6</span>
+      </div>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <div id="quiz-content">
+      <div class="exercise-block">
+        <span class="question-text" id="q-text">Cargando...</span>
+        
+        <div class="selection-grid">
+          <button class="option-btn" id="btn-true" onclick="handleSelect('true')">True</button>
+          <button class="option-btn" id="btn-false" onclick="handleSelect('false')">False</button>
+        </div>
+        
+        <button class="btn-next" id="next-btn" onclick="nextQuestion()">SIGUIENTE PREGUNTA →</button>
+        <div id="q-feedback" class="feedback"></div>
+      </div>
+    </div>
+
+    <div id="finish-screen" class="finish-screen">
+      <h3 id="finish-title" style="color:#00FF00;">¡TERMINADO!</h3>
+      <div id="score-display" class="score-val"></div>
+      <button class="btn-restart" id="restart-btn" onclick="restartQuiz()">REINTENTAR</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const quizData = [
+    { q: "Es correcto usar el presente simple para una cita médica programada en dos semanas dentro de un horario fijo.", a: "true", why: "Correcto. Se usa para eventos futuros que forman parte de un horario establecido o rutina." },    
+    { q: "En la frase 'I live in Villavicencio' (Vivo en Villavicencio), el presente simple indica una situación temporal corta.", a: "false", why: "Falso. El presente simple describe estados o situaciones permanentes a largo plazo." },
+    { q: "Al dar instrucciones (como recetas o manuales), se suele omitir el sujeto (you) en la oración porque es claro que me estoy refiriendo a la segunda persona gramatical.", a: "true", why: "Correcto. En el modo imperativo no se requiere colocar el sujeto explícito (ej: 'Mix the ingredients' / Mezcla los ingredientes)." },
+    { q: "El presente simple se usa principalmente para acciones que están ocurriendo exactamente en este instante.", a: "false", why: "Falso. Para lo que ocurre en este instante se usa el Presente Continuo. El Simple es para hábitos, rutinas y verdades generales." },
+    { q: "La oración 'The Earth is round' (La Tierra es redonda) es un ejemplo de presente simple usado para una verdad general.", a: "true", why: "Correcto. Se usa para hechos científicos, datos de la naturaleza o verdades que no cambian." },
+    { q: "Si tu examen es mañana, es gramaticalmente correcto decir en presente: 'I have an exam tomorrow' (Tengo un examen mañana).", a: "true", why: "Correcto. Los compromisos académicos, clases o transportes programados a futuro se expresan de esta forma." }
+  ];
+
+  let currentIdx = 0;
+  let score = 0;
+  let answered = false;
+
+  function loadQuestion() {
+    answered = false;
+    const progressBar = document.getElementById('progress-bar');
+    const nextBtn = document.getElementById('next-btn');
+    const feedback = document.getElementById('q-feedback');
+    
+    feedback.style.display = "none";
+    nextBtn.style.display = "none";
+    nextBtn.className = "btn-next";
+    
+    document.getElementById('btn-true').className = "option-btn";
+    document.getElementById('btn-false').className = "option-btn";
+    document.getElementById('btn-true').disabled = false;
+    document.getElementById('btn-false').disabled = false;
+
+    const q = quizData[currentIdx];
+    document.getElementById('q-text').innerText = `${currentIdx + 1}. ${q.q}`;
+    document.getElementById('counter').innerText = `${currentIdx + 1}/${quizData.length}`;
+    progressBar.style.width = `${((currentIdx + 1) / quizData.length) * 100}%`;
+  }
+
+  function handleSelect(choice) {
+    if (answered) return;
+    answered = true;
+
+    const q = quizData[currentIdx];
+    const btnTrue = document.getElementById('btn-true');
+    const btnFalse = document.getElementById('btn-false');
+    const fb = document.getElementById('q-feedback');
+    const nextBtn = document.getElementById('next-btn');
+
+    btnTrue.disabled = true;
+    btnFalse.disabled = true;
+
+    if (q.a === 'true') btnTrue.classList.add('correct-state');
+    else btnFalse.classList.add('correct-state');
+
+    fb.style.display = "block";
+
+    if (choice === q.a) {
+      score++;
+      fb.style.color = "#00FF00";
+      fb.innerHTML = "¡CORRECTO!";
+      nextBtn.classList.add('next-correct');
+    } else {
+      if (choice === 'true') btnTrue.classList.add('incorrect-state');
+      else btnFalse.classList.add('incorrect-state');
+      
+      fb.style.color = "#D30000";
+      fb.innerHTML = `Incorrecto.<br><small style="color:#888; text-transform:none; font-style:italic;">${q.why}</small>`;
+      nextBtn.classList.add('next-wrong');
+    }
+
+    nextBtn.style.display = "block";
+  }
+
+  function nextQuestion() {
+    currentIdx++;
+    if (currentIdx < quizData.length) {
+      loadQuestion();
+    } else {
+      showFinish();
+    }
+  }
+
+  function showFinish() {
+    document.getElementById('quiz-content').style.display = "none";
+    const finishScreen = document.getElementById('finish-screen');
+    finishScreen.style.display = "block";
+    document.getElementById('score-display').innerText = `${score} / ${quizData.length}`;
+    
+    const restartBtn = document.getElementById('restart-btn');
+    if (score === quizData.length) {
+      restartBtn.innerText = "¡EXCELENTE TRABAJO! 🔥";
+      restartBtn.className = "btn-restart restart-green";
+    } else {
+      restartBtn.innerText = "REINTENTAR";
+      restartBtn.className = "btn-restart restart-red";
+    }
+  }
+
+  function restartQuiz() {
+    currentIdx = 0; score = 0;
+    document.getElementById('quiz-content').style.display = "block";
+    document.getElementById('finish-screen').style.display = "none";
+    loadQuestion();
+  }
+
+  window.onload = loadQuestion;
+</script>
+</body>
+</html>
