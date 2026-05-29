@@ -1,423 +1,437 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>True or False Quiz</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>multiple choice</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght=400;700&display=swap');
+  
+  body { 
+    margin: 0; 
+    padding: 0; 
+    background-color: transparent; 
+    font-family: 'Montserrat', sans-serif; 
+    color: white; 
+    overflow-x: hidden; 
+  }
+  
+  .wrapper { 
+    padding: 10px; 
+    width: 100%; 
+    max-width: 900px; 
+    margin: 0 auto; 
+    box-sizing: border-box; 
+  }
+  
+  .action-card { 
+    background: #000; 
+    border-left: 6px solid #D30000; 
+    border-radius: 12px; 
+    padding: 30px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7); 
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box; 
+    transition: all 0.4s ease;
+  }
+  
+  .section-header { 
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+  }
 
-    body { 
-      margin: 0; 
-      padding: 0; 
-      background-color: transparent; 
-      font-family: 'Montserrat', sans-serif; 
-      color: white; 
-      overflow-x: hidden;
-    }
-    
-    .wrapper { 
-      padding: 10px; 
-      width: 100%; 
-      max-width: 900px; 
-      margin: 0 auto; 
-      box-sizing: border-box; 
-    }
+  .header-title-container { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    border-bottom: 2.5px solid #D30000; 
+    padding-bottom: 8px; 
+    width: 100%; 
+    justify-content: space-between; 
+    transition: all 0.4s ease;
+  }
+  
+  .logo-bracket { 
+    width: 42px; 
+    height: 42px; 
+    background: #000; 
+    border-left: 3.5px solid #D30000; 
+    border-radius: 5px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding-left: 4px; 
+    box-sizing: border-box; 
+  }
+  
+  .logo-bracket img { 
+    width: 34px; 
+    height: 34px; 
+    border-radius: 50%; 
+    object-fit: cover; 
+  }
+  
+  .header-left-group { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+  }
+  
+  .header-left-group h2 { 
+    color: #ffffff; 
+    font-size: 1rem; 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px; 
+    margin: 0; 
+  }
 
-    .action-card {
-      background: #000;
-      border-left: 6px solid #D30000;
-      border-radius: 12px;
-      padding: 30px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-      display: flex;
-      flex-direction: column;
-      box-sizing: border-box;
-      transition: all 0.4s ease;
-    }
+  .counter-text {
+    color: #888;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
 
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-    }
+  .progress-container { 
+    width: 100%; 
+    background: #222; 
+    height: 4px; 
+    border-radius: 2px; 
+    margin-bottom: 20px; 
+    overflow: hidden; 
+  }
+  
+  .progress-bar { height: 100%; background: #D30000; width: 0%; transition: width 0.4s ease; }
 
-    .header-title-container { 
-      display: flex; 
-      align-items: center; 
-      gap: 12px; 
-      border-bottom: 2.5px solid #D30000; 
-      padding-bottom: 8px; 
-      width: 100%; 
-      justify-content: space-between; 
-      transition: all 0.4s ease;
-    }
-    
-    .logo-bracket { 
-      width: 42px; 
-      height: 42px; 
-      background: #000; 
-      border-left: 3.5px solid #D30000; 
-      border-radius: 5px; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      padding-left: 4px; 
-      box-sizing: border-box; 
-    }
-    
-    .logo-bracket img { 
-      width: 34px; 
-      height: 34px; 
-      border-radius: 50%; 
-      object-fit: cover; 
-    }
-    
-    .header-left-group { 
-      display: flex; 
-      align-items: center; 
-      gap: 12px; 
-    }
-    
-    .header-left-group h2 { 
-      color: #ffffff; 
-      font-size: 1rem; 
-      font-weight: 700; 
-      text-transform: uppercase; 
-      letter-spacing: 0.5px; 
-      margin: 0; 
-    }
+  .exercise-block { 
+    background: #111; 
+    padding: 20px; 
+    border-radius: 10px; 
+    border: 1px solid #222; 
+  }
+  
+  .instruction-text {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 400;
+    line-height: 1.4;
+  }
 
-    .counter-text {
-      color: #888;
-      font-weight: 700;
-      font-size: 0.95rem;
-    }
+  .subject-display { 
+    font-size: 1.6rem; 
+    color: #fff; 
+    margin: 20px 0; 
+    font-weight: 700; 
+    text-align: center;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+  }
 
-    .progress-container { 
-      width: 100%; 
-      background: #222; 
-      height: 4px; 
-      border-radius: 2px; 
-      margin-bottom: 20px; 
-      overflow: hidden; 
-    }
-    
-    .progress-bar { 
-      height: 100%; 
-      background: #D30000; 
-      width: 0%; 
-      transition: width 0.4s ease; 
-    }
+  .subject-display span {
+    display: block;
+    font-size: 1.1rem;
+    color: #888;
+    font-weight: 400;
+    font-style: italic;
+    margin-top: 8px;
+  }
 
-    .exercise-block {
-      background: #111;
-      padding: 25px;
-      border-radius: 10px;
-      border: 1px solid #222;
-      box-sizing: border-box;
-    }
+  /* Modificado a flex vertical para albergar las opciones completas de los contextos de forma cómoda */
+  .options-grid { 
+    display: flex; 
+    flex-direction: column;
+    gap: 10px; 
+    margin-bottom: 15px; 
+  }
+  
+  .option-btn { 
+    background: #000; 
+    border: 1.5px solid #444; 
+    border-bottom: 3px solid #222;
+    padding: 14px 20px; 
+    border-radius: 8px; 
+    color: white; 
+    font-size: 1.05rem; 
+    font-weight: 700; 
+    cursor: pointer; 
+    transition: all 0.2s; 
+    font-family: 'Montserrat', sans-serif; 
+    text-align: left;
+  }
 
-    .question-text { 
-      color: #ffffff; 
-      font-size: 1.1rem; 
-      font-weight: 700; 
-      margin-bottom: 20px; 
-      line-height: 1.4; 
-      text-align: center; 
-      display: block;
-    }
-    
-    .selection-grid { 
-      display: grid; 
-      grid-template-columns: 1fr 1fr; 
-      gap: 12px; 
-      margin-bottom: 15px; 
-    }
+  /* El hover cambia los bordes de manera sutil a blanco tal como querías */
+  .option-btn:hover:not(.correct-highlight):not(.wrong):not(.dimmed) { 
+    border-color: #ffffff; 
+  }
 
-    .option-btn {
-      background: #000; 
-      border: 1.5px solid #444; 
-      border-bottom: 3px solid #222;
-      border-radius: 8px;
-      padding: 14px 10px; 
-      color: white; 
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.95rem; 
-      font-weight: 700; 
-      cursor: pointer; 
-      transition: all 0.2s;
-      text-transform: uppercase;
-    }
+  .option-btn.correct-highlight { 
+    border: 2px solid #00FF00 !important; 
+    border-bottom: 3.5px solid #00CC00 !important;
+    color: #00FF00 !important; 
+    background: #001f09 !important; 
+  }
+  
+  .option-btn.wrong { 
+    border: 2px solid #D30000 !important; 
+    border-bottom: 3.5px solid #900 !important;
+    color: #D30000 !important; 
+    background: #1a0000 !important; 
+  }
 
-    .option-btn:hover:not(:disabled) {
-      border-color: #555;
-    }
+  .option-btn.dimmed {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
 
-    .option-btn.correct-state { 
-      background-color: #002b0c !important;
-      border: 2px solid #00FF00 !important; 
-      border-bottom: 3px solid #00FF00 !important;
-      color: #00FF00 !important; 
-      box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
-      transform: scale(1.01);
-    }
-    
-    .option-btn.incorrect-state { 
-      background-color: #421b1b !important;
-      border: 2px solid #D30000 !important; 
-      border-bottom: 3px solid #D30000 !important;
-      color: #D30000 !important; 
-      animation: shake 0.4s; 
-    }
+  .feedback-box { 
+    margin-top: 5px; 
+    margin-bottom: 15px; 
+    padding: 10px; 
+    min-height: 40px; 
+    display: none; 
+    align-items: center; 
+    justify-content: center; 
+    font-weight: 700; 
+    font-size: 0.9rem; 
+    line-height: 1.4; 
+    text-transform: uppercase;
+    text-align: center;
+    border-radius: 8px;
+  }
 
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-4px); }
-      75% { transform: translateX(4px); }
-    }
+  .f-correct { color: #00FF00; background: #001f09; border: 1px solid #00FF00; }
+  .f-wrong { color: #ff6b6b; background: #1a0000; border: 1px solid #D30000; text-transform: none; }
 
-    .btn-next { 
-      width: 100%; 
-      border: none; 
-      padding: 14px; 
-      border-radius: 8px; 
-      font-weight: 700; 
-      cursor: pointer; 
-      text-transform: uppercase; 
-      margin-top: 10px; 
-      display: none; 
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.85rem; 
-      letter-spacing: 0.5px;
-    }
+  .next-btn { 
+    display: none; 
+    width: 100%; 
+    border: none; 
+    padding: 14px; 
+    border-radius: 8px; 
+    font-weight: 700; 
+    font-size: 0.85rem; 
+    cursor: pointer; 
+    text-transform: uppercase; 
+    margin-top: 5px; 
+    letter-spacing: 0.5px;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.2s;
+  }
 
-    .next-correct { background: #00FF00 !important; color: #000 !important; }
-    .next-wrong { background: #D30000 !important; color: #fff !important; }
+  .next-btn.next-correct { background: #00FF00 !important; color: #000 !important; box-shadow: 0 0 10px rgba(0, 255, 0, 0.2); }
+  .next-btn.next-wrong { background: #D30000 !important; color: #fff !important; }
 
-    .feedback { 
-      margin-top: 12px; 
-      font-weight: 700; 
-      display: none; 
-      padding: 8px; 
-      font-size: 0.9rem; 
-      text-align: center; 
-      line-height: 1.4; 
-      text-transform: uppercase; 
-    }
+  .finish-screen { padding: 15px 5px; text-align: center; animation: fadeIn 0.5s; }
+  
+  .finish-screen h3 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
 
-    .btn-restart { 
-      width: 100%; 
-      border: none; 
-      padding: 14px; 
-      border-radius: 8px; 
-      font-weight: 700; 
-      cursor: pointer; 
-      text-transform: uppercase; 
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.85rem; 
-      letter-spacing: 0.5px;
-      transition: background 0.3s; 
-    }
-    .restart-red { background: #D30000; color: white; }
-    .restart-green { background: #00FF00; color: black; box-shadow: 0 0 15px rgba(0, 255, 0, 0.5); }
+  .score-val { 
+    display: inline-block; 
+    width: 90px; 
+    height: 90px; 
+    border: 4px solid #00FF00;
+    border-radius: 50%; 
+    line-height: 90px; 
+    font-size: 1.8rem; 
+    font-weight: 700;
+    margin: 20px 0; 
+    color: #00FF00;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+  }
 
-    .finish-screen { text-align: center; color: white; display: none; padding: 10px; }
-    
-    .finish-screen h3 {
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin: 0 0 10px 0;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    
-    .score-val { font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: 15px; }
+  .restart-btn { 
+    width: 100%; 
+    border-radius: 8px; 
+    font-weight: 700; 
+    cursor: pointer; 
+    text-transform: uppercase; 
+    padding: 14px; 
+    border: none; 
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+  }
+  .restart-red { background: #D30000; color: white; border-bottom: 3px solid #900; }
+  .restart-green { background: #00FF00; color: #000; border-bottom: 3px solid #00CC00; box-shadow: 0 0 15px rgba(0, 255, 0, 0.5); }
 
-    /* Optimizaciones completas para pantallas móviles */
-    @media (max-width: 768px) {
-      .action-card { padding: 15px; border-left-width: 4px; }
-      
-      .header-title-container {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        padding-bottom: 10px;
-      }
-      
-      .header-left-group {
-        justify-content: center;
-        width: 100%;
-      }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-      .counter-text {
-        font-size: 0.85rem;
-        background: #111;
-        padding: 4px 12px;
-        border-radius: 20px;
-        border: 1px solid #333;
-      }
-
-      .exercise-block { padding: 15px; }
-      .logo-bracket { width: 36px; height: 36px; }
-      .logo-bracket img { width: 28px; height: 28px; }
-      .header-left-group h2 { font-size: 0.85rem; }
-      .question-text { font-size: 0.95rem; margin-bottom: 15px; }
-      .selection-grid { gap: 8px; }
-      .option-btn { padding: 12px 6px; font-size: 0.85rem; min-height: 46px; border-radius: 6px; border-bottom-width: 2px; }
-      .btn-next { padding: 12px; font-size: 0.75rem; border-radius: 6px; }
-      .feedback { font-size: 0.8rem; }
-      .finish-screen h3 { font-size: 1.3rem; }
-      .score-val { font-size: 1.5rem; }
-      .btn-restart { padding: 12px; font-size: 0.75rem; border-radius: 6px; }
-    }
-  </style>
+  @media (max-width: 768px) {
+    .action-card { padding: 15px; border-left-width: 4px; }
+    .logo-bracket { width: 36px; height: 36px; }
+    .logo-bracket img { width: 28px; height: 28px; }
+    .header-left-group h2 { font-size: 0.85rem; }
+    .counter-text { font-size: 0.8rem; }
+    .exercise-block { padding: 12px; border-radius: 8px; }
+    .instruction-text { font-size: 0.8rem; margin-bottom: 10px; }
+    .subject-display { font-size: 1.25rem; margin: 12px 0; }
+    .subject-display span { font-size: 0.95rem; }
+    .options-grid { gap: 8px; margin-bottom: 10px; }
+    .option-btn { padding: 12px 14px; font-size: 0.9rem; border-radius: 6px; border-bottom-width: 2px; }
+    .feedback-box { font-size: 0.8rem; padding: 6px; margin-bottom: 10px; min-height: 30px; }
+    .next-btn { padding: 12px; font-size: 0.75rem; border-radius: 6px; }
+    .finish-screen h3 { font-size: 1.3rem; }
+    .score-val { width: 75px; height: 75px; line-height: 75px; font-size: 1.5rem; margin: 15px 0; }
+    .restart-btn { padding: 12px; font-size: 0.75rem; border-radius: 6px; }
+  }
+</style>
 </head>
 <body>
 
 <div class="wrapper">
-  <div class="action-card" id="main-card">
-    <div class="section-header">
-      <div class="header-title-container" id="main-header">
-        <div class="header-left-group">
-          <div class="logo-bracket"><img src="https://drive.google.com/thumbnail?id=1DQWHMZf7MpnzZBa3CbqqyJGLQEK6U4lZ" alt="Kira"></div>
-          <h2>TRUE OR FALSE</h2>
+  <div class="action-card" id="quiz-container">
+    <div id="game-ui">
+      <div class="section-header">
+        <div class="header-title-container">
+          <div class="header-left-group">
+            <div class="logo-bracket"><img src="https://drive.google.com/thumbnail?id=1DQWHMZf7MpnzZBa3CbqqyJGLQEK6U4lZ" alt="Kira"></div>
+            <h2>multiple choice</h2>
+          </div>
+          <span id="counter" class="counter-text">1/10</span>
         </div>
-        <span id="counter" class="counter-text">1/6</span>
       </div>
-    </div>
-
-    <div class="progress-container">
-      <div class="progress-bar" id="progress-bar"></div>
-    </div>
-
-    <div id="quiz-content">
+      <div class="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
       <div class="exercise-block">
-        <span class="question-text" id="q-text">Cargando...</span>
-        
-        <div class="selection-grid">
-          <button class="option-btn" id="btn-true" onclick="handleSelect('true')">True</button>
-          <button class="option-btn" id="btn-false" onclick="handleSelect('false')">False</button>
-        </div>
-        
-        <button class="btn-next" id="next-btn" onclick="nextQuestion()">SIGUIENTE PREGUNTA →</button>
-        <div id="q-feedback" class="feedback"></div>
+        <div class="instruction-text">Analiza la oración en pantalla y clasifícala según el contexto o uso correcto del Presente Simple:</div>
+        <div class="subject-display" id="subject-text">...<span id="translation-text">...</span></div>
+        <div class="options-grid" id="options-container"></div>
+        <div id="feedback" class="feedback-box"></div>
+        <button id="next-btn" class="next-btn" onclick="nextQuestion()">SIGUIENTE PREGUNTA →</button>
       </div>
     </div>
-
-    <div id="finish-screen" class="finish-screen">
-      <h3 id="finish-title" style="color:#00FF00;">¡TERMINADO!</h3>
-      <div id="score-display" class="score-val"></div>
-      <button class="btn-restart" id="restart-btn" onclick="restartQuiz()">REINTENTAR</button>
-    </div>
+    <div id="finish-ui" style="display:none;"></div>
   </div>
 </div>
 
 <script>
+  // Cambiado de vuelta "dark caves" a "darkness" en la oración número 6
   const quizData = [
-    { q: "Es correcto usar el presente simple para una cita médica programada en dos semanas dentro de un horario fijo.", a: "true", why: "Correcto. Se usa para eventos futuros que forman parte de un horario establecido o rutina." },    
-    { q: "En la frase 'I live in Villavicencio' (Vivo en Villavicencio), el presente simple indica una situación temporal corta.", a: "false", why: "Falso. El presente simple describe estados o situaciones permanentes a largo plazo." },
-    { q: "Al dar instrucciones (como recetas o manuales), se suele omitir el sujeto (you) en la oración porque es claro que me estoy refiriendo a la segunda persona gramatical.", a: "true", why: "Correcto. En el modo imperativo no se requiere colocar el sujeto explícito (ej: 'Mix the ingredients' / Mezcla los ingredientes)." },
-    { q: "El presente simple se usa principalmente para acciones que están ocurriendo exactamente en este instante.", a: "false", why: "Falso. Para lo que ocurre en este instante se usa el Presente Continuo. El Simple es para hábitos, rutinas y verdades generales." },
-    { q: "La oración 'The Earth is round' (La Tierra es redonda) es un ejemplo de presente simple usado para una verdad general.", a: "true", why: "Correcto. Se usa para hechos científicos, datos de la naturaleza o verdades que no cambian." },
-    { q: "Si tu examen es mañana, es gramaticalmente correcto decir en presente: 'I have an exam tomorrow' (Tengo un examen mañana).", a: "true", why: "Correcto. Los compromisos académicos, clases o transportes programados a futuro se expresan de esta forma." }
+    { sub: "Classes and exams start tomorrow.", esp: "Clases y exámenes comienzan mañana.", correct: "Horarios o Eventos Futuros", why: "Describe un evento futuro que está sujeto a un horario académico fijo establecido." },
+    { sub: "Parties and concerts begin tonight.", esp: "Fiestas y conciertos empiezan esta noche.", correct: "Horarios o Eventos Futuros", why: "Se usa para eventos futuros agendados colectivamente de forma inmediata." },
+    { sub: "Danny and Ana live in Villavicencio.", esp: "Danny y Ana viven en Villavicencio.", correct: "Situaciones Permanentes", why: "Describe una situación habitacional estable y duradera a largo plazo de las personas." },
+    { sub: "Teachers and students love Kira.", esp: "Profesores y estudiantes aman a Kira.", correct: "Situaciones Permanentes", why: "Expresa un estado afectivo continuo y permanente que involucra a un sujeto compuesto." },
+    { sub: "Planets and stars follow orbits.", esp: "Planetas y estrellas siguen órbitas.", correct: "Hechos y Verdades Universales", why: "Es una verdad científica y astronómica universalmente verídica." },
+    { sub: "Bats and owls prefer darkness.", esp: "Murciélagos y búhos prefieren la oscuridad.", correct: "Hechos y Verdades Universales", why: "Información biológica consistente y factual basada en la naturaleza de estas especies." },
+    { sub: "Children and adults walk dogs daily.", esp: "Niños y adultos pasean perros diariamente.", correct: "Hábitos y Rutinas", why: "Indica un hábito o rutina regular que los sujetos ejecutan con constancia." },
+    { sub: "Families and neighbors buy groceries weekly.", esp: "Familias y vecinos compran mercado semanalmente.", correct: "Hábitos y Rutinas", why: "Describe una actividad cotidiana y una rutina de abastecimiento común." },
+    { sub: "Mix ingredients and bake everything.", esp: "Mezcla ingredientes y hórnealo todo.", correct: "Instrucciones u Órdenes", why: "Es una instrucción directa paso a paso en modo imperativo, donde no se requiere sujeto explícito." },
+    { sub: "Chop vegetables and boil water.", esp: "Pica vegetales y hierve agua.", correct: "Instrucciones u Órdenes", why: "Representa una orden de cocina o proceso técnico directo sin artículos ni sujetos." }
   ];
 
-  let currentIdx = 0;
-  let score = 0;
-  let answered = false;
+  const fixedCategories = [
+    "Horarios o Eventos Futuros",
+    "Situaciones Permanentes",
+    "Hechos y Verdades Universales",
+    "Hábitos y Rutinas",
+    "Instrucciones u Órdenes"
+  ];
 
-  function loadQuestion() {
-    answered = false;
-    const progressBar = document.getElementById('progress-bar');
-    const nextBtn = document.getElementById('next-btn');
-    const feedback = document.getElementById('q-feedback');
-    
-    feedback.style.display = "none";
-    nextBtn.style.display = "none";
-    nextBtn.className = "btn-next";
-    
-    document.getElementById('btn-true').className = "option-btn";
-    document.getElementById('btn-false').className = "option-btn";
-    document.getElementById('btn-true').disabled = false;
-    document.getElementById('btn-false').disabled = false;
+  let currentIdx = 0, score = 0, canClick = true, activeList = [];
+  const TOTAL_QUESTIONS = 10;
 
-    const q = quizData[currentIdx];
-    document.getElementById('q-text').innerText = `${currentIdx + 1}. ${q.q}`;
-    document.getElementById('counter').innerText = `${currentIdx + 1}/${quizData.length}`;
-    progressBar.style.width = `${((currentIdx + 1) / quizData.length) * 100}%`;
+  function startQuiz() {
+    activeList = [...quizData].sort(() => Math.random() - 0.5);
+    currentIdx = 0; score = 0;
+    document.getElementById('game-ui').style.display = "block";
+    document.getElementById('finish-ui').style.display = "none";
+    loadQuestion();
   }
 
-  function handleSelect(choice) {
-    if (answered) return;
-    answered = true;
-
-    const q = quizData[currentIdx];
-    const btnTrue = document.getElementById('btn-true');
-    const btnFalse = document.getElementById('btn-false');
-    const fb = document.getElementById('q-feedback');
+  function loadQuestion() {
+    canClick = true;
     const nextBtn = document.getElementById('next-btn');
+    nextBtn.style.display = "none";
+    nextBtn.className = "next-btn";
+    
+    const data = activeList[currentIdx];
+    document.getElementById('progress-bar').style.width = `${((currentIdx + 1) / TOTAL_QUESTIONS) * 100}%`;
+    
+    document.getElementById('subject-text').innerHTML = `${data.sub} <span id='translation-text'>⇔ ${data.esp}</span>`;
+    document.getElementById('counter').innerText = `${currentIdx + 1}/${TOTAL_QUESTIONS}`;
+    
+    const container = document.getElementById('options-container');
+    container.innerHTML = '';
+    
+    fixedCategories.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerText = cat;
+      btn.onclick = () => handleChoice(cat === data.correct, btn, data);
+      container.appendChild(btn);
+    });
+    
+    document.getElementById('feedback').style.display = "none";
+  }
 
-    btnTrue.disabled = true;
-    btnFalse.disabled = true;
+  function handleChoice(isCorrect, selectedBtn, data) {
+    if (!canClick) return;
+    canClick = false;
+    
+    const fb = document.getElementById('feedback');
+    const nb = document.getElementById('next-btn');
+    fb.style.display = "flex";
+    nb.style.display = "block";
 
-    if (q.a === 'true') btnTrue.classList.add('correct-state');
-    else btnFalse.classList.add('correct-state');
-
-    fb.style.display = "block";
-
-    if (choice === q.a) {
+    if (isCorrect) {
+      selectedBtn.classList.add('correct-highlight');
       score++;
-      fb.style.color = "#00FF00";
-      fb.innerHTML = "¡CORRECTO!";
-      nextBtn.classList.add('next-correct');
+      fb.className = "feedback-box f-correct";
+      fb.innerText = "¡CORRECTO! CASO DETECTADO.";
+      nb.className = "next-btn next-correct";
     } else {
-      if (choice === 'true') btnTrue.classList.add('incorrect-state');
-      else btnFalse.classList.add('incorrect-state');
-      
-      fb.style.color = "#D30000";
-      fb.innerHTML = `Incorrecto.<br><small style="color:#888; text-transform:none; font-style:italic;">${q.why}</small>`;
-      nextBtn.classList.add('next-wrong');
+      selectedBtn.classList.add('wrong');
+      fb.className = "feedback-box f-wrong";
+      fb.innerHTML = `<strong>INCORRECTO:</strong> ${data.why}`;
+      nb.className = "next-btn next-wrong";
     }
 
-    nextBtn.style.display = "block";
+    document.querySelectorAll('.option-btn').forEach(b => {
+      if (b.innerText === data.correct) {
+        b.classList.add('correct-highlight');
+      } else if (b !== selectedBtn) {
+        b.classList.add('dimmed');
+      }
+    });
   }
 
   function nextQuestion() {
     currentIdx++;
-    if (currentIdx < quizData.length) {
-      loadQuestion();
-    } else {
-      showFinish();
-    }
+    if (currentIdx < TOTAL_QUESTIONS) loadQuestion();
+    else finish();
   }
 
-  function showFinish() {
-    document.getElementById('quiz-content').style.display = "none";
-    const finishScreen = document.getElementById('finish-screen');
-    finishScreen.style.display = "block";
-    document.getElementById('score-display').innerText = `${score} / ${quizData.length}`;
+  function finish() {
+    document.getElementById('game-ui').style.display = "none";
+    const fui = document.getElementById('finish-ui');
+    fui.style.display = "block";
     
-    const restartBtn = document.getElementById('restart-btn');
-    if (score === quizData.length) {
-      restartBtn.innerText = "¡EXCELENTE TRABAJO! 🔥";
-      restartBtn.className = "btn-restart restart-green";
-    } else {
-      restartBtn.innerText = "REINTENTAR";
-      restartBtn.className = "btn-restart restart-red";
-    }
+    const isPerfect = (score === TOTAL_QUESTIONS);
+    const btnText = isPerfect ? "¡EXCELENTE TRABAJO! 🔥" : "REINTENTAR";
+    const btnClass = isPerfect ? "restart-green" : "restart-red";
+
+    fui.innerHTML = `
+      <div class="finish-screen">
+        <h3 style="color:#00FF00; margin:0 0 10px 0;">¡TERMINADO!</h3>
+        <div class="score-val">${score} / ${TOTAL_QUESTIONS}</div>
+        <p style="font-size:0.95rem; font-weight:700; color:#aaa; margin-bottom:20px;">${isPerfect ? '¡PUNTAJE PERFECTO!' : 'SIGUE PRACTICANDO EL PRESENTE SIMPLE.'}</p>
+        <button class="restart-btn ${btnClass}" onclick="startQuiz()">${btnText}</button>
+      </div>`;
   }
 
-  function restartQuiz() {
-    currentIdx = 0; score = 0;
-    document.getElementById('quiz-content').style.display = "block";
-    document.getElementById('finish-screen').style.display = "none";
-    loadQuestion();
-  }
-
-  window.onload = loadQuestion;
+  window.onload = startQuiz;
 </script>
 </body>
 </html>
